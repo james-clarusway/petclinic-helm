@@ -70,7 +70,7 @@ pipeline {
                 """
                 // sh "helm uninstall petclinic-helm"
                 // sh "helm install petclinic-helm helm/petclinic/"
-                sh "kubectl get pod"
+                sh "rancher kubectl get pod"
             }
         }
     }
