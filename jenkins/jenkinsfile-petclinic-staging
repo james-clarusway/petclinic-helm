@@ -70,7 +70,8 @@ pipeline {
                 """
                 sh "rancher cluster kf c-5rcgv > helm/config"
                 sh "chmod 400 helm/config"
-                sh "helm install petclinic-helm helm/petclinic/ --kubeconfig helm/config"
+                // sh "helm install petclinic-helm helm/petclinic/ --kubeconfig helm/config"
+                sh "helm upgrade petclinic-helm --kubeconfig helm/config"
             }
         }
     }
