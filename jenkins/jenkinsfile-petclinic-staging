@@ -9,7 +9,7 @@ pipeline {
         ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         RANCHER_URL="https://petclinicdt-rancher.clarusway.us"
         // Get the project-id from Rancher UI (petclinic-cluster-staging namespace, View in API, copy projectId )
-        RANCHER_CONTEXT="c-w9x49:p-dmp54" 
+        RANCHER_CONTEXT="c-5rcgv:p-vrvdh" 
         RANCHER_CREDS=credentials('rancher-petclinic-credentials')
     }
     stages {
@@ -68,7 +68,7 @@ pipeline {
                 --from-file=.dockerconfigjson=$JENKINS_HOME/.docker/config.json \
                 --type=kubernetes.io/dockerconfigjson
                 """
-                sh "rancher cluster kf c-w9x49 > helm/config"
+                sh "rancher cluster kf c-5rcgv > helm/config"
                 sh "helm uninstall petclinic-helm --kubeconfig helm/config"
                 sh "helm install petclinic-helm helm/petclinic/ --kubeconfig helm/config"
             }
