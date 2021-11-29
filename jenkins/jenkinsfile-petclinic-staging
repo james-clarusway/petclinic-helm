@@ -68,6 +68,7 @@ pipeline {
                 --from-file=.dockerconfigjson=$JENKINS_HOME/.docker/config.json \
                 --type=kubernetes.io/dockerconfigjson
                 """
+                sh "helm uninstall petclinic-helm"
                 sh "helm install petclinic-helm helm/petclinic/"
             }
         }
