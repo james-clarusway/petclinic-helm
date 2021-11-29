@@ -77,7 +77,7 @@ pipeline {
                 sh "helm s3 init s3://petclinic-helm-charts/stable/myapp | echo petclinic-helm-charts s3 is already initialized "
                 sh "helm repo add stable-petclinic s3://petclinic-helm-charts/stable/myapp/ | echo stable-myapp is already added "
                 sh "helm package helm/petclinic"
-                sh "helm s3 push helm/petclinic-0.1.0.tgz stable-petclinic"
+                sh "helm s3 push petclinic-0.1.0.tgz stable-petclinic"
                 sh "helm repo update"
                 sh "helm upgrade --install petclinic-app-release stable-petclinic/petclinic --version 0.1.0"
             }
