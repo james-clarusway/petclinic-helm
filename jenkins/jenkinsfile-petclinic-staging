@@ -61,14 +61,14 @@ pipeline {
             steps {
                 echo 'Deploying App on K8s Cluster'
                 sh "rancher login $RANCHER_URL --context $RANCHER_CONTEXT --token $RANCHER_CREDS_USR:$RANCHER_CREDS_PSW"
-                sh "envsubst < /helm/petclinic/values-template.yml > /helm/petclinic/values.yml"
+                sh "envsubst < helm/petclinic/values-template.yml > /helm/petclinic/values.yml"
                 sh "rancher kubectl delete secret regcred -n petclinic-staging-ns || true"
                 sh """
                 rancher kubectl create secret generic regcred -n petclinic-staging-ns \
                 --from-file=.dockerconfigjson=$JENKINS_HOME/.docker/config.json \
                 --type=kubernetes.io/dockerconfigjson
                 """
-                sh "helm install petclinic-helm /helm/petclinic/"
+                sh "helm install petclinic-helm helm/petclinic/"
             }
         }
     }
