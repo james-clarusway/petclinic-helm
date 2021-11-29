@@ -68,9 +68,10 @@ pipeline {
                 --from-file=.dockerconfigjson=$JENKINS_HOME/.docker/config.json \
                 --type=kubernetes.io/dockerconfigjson
                 """
-                // sh "helm uninstall petclinic-helm"
-                // sh "helm install petclinic-helm helm/petclinic/"
-                sh "rancher kubectl get pod"
+                sh "rancher cluster kf c-4nnpp > helm/config"
+                sh "export KUBECONFIG="helm/petclinic""
+                sh "helm uninstall petclinic-helm"
+                sh "helm install petclinic-helm helm/petclinic/"
             }
         }
     }
