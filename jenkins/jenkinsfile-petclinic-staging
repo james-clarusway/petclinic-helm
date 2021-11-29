@@ -70,6 +70,7 @@ pipeline {
                 """
                 sh "rancher cluster kf c-w9x49 > helm/config"
                 sh "export KUBECONFIG='helm/config'"
+                sh "printenv KUBECONFIG"
                 sh "helm uninstall petclinic-helm"
                 sh "helm install petclinic-helm helm/petclinic/"
             }
