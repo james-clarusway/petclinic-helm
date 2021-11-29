@@ -60,8 +60,9 @@ pipeline {
         stage('Deploy App on Petclinic Kubernetes Cluster'){
             steps {
                 echo 'Deploying App on K8s Cluster'
+                ls
                 sh "rancher login $RANCHER_URL --context $RANCHER_CONTEXT --token $RANCHER_CREDS_USR:$RANCHER_CREDS_PSW"
-                sh "envsubst < helm/petclinic/values-template.yml > helm/petclinic/values.yml"
+                sh "envsubst < helm/petclinic/values-template.yaml > helm/petclinic/values.yaml"
                 sh "rancher kubectl delete secret regcred -n petclinic-staging-ns || true"
                 sh """
                 rancher kubectl create secret generic regcred -n petclinic-staging-ns \
