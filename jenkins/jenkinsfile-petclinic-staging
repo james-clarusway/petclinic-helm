@@ -69,10 +69,8 @@ pipeline {
                 --type=kubernetes.io/dockerconfigjson
                 """
                 sh "rancher cluster kf c-w9x49 > helm/config"
-                sh "export KUBECONFIG='helm/config'"
-                sh "printenv KUBECONFIG"
-                sh "helm uninstall petclinic-helm"
-                sh "helm install petclinic-helm helm/petclinic/"
+                sh "helm uninstall petclinic-helm --kubeconfig helm/config"
+                sh "helm install petclinic-helm helm/petclinic/ --kubeconfig helm/config"
             }
         }
     }
