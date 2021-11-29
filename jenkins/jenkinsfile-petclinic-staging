@@ -69,7 +69,7 @@ pipeline {
                 --type=kubernetes.io/dockerconfigjson
                 """
                 sh "rancher cluster kf c-4nnpp > helm/config"
-                sh "export KUBECONFIG=helm/petclinic/config"
+                sh "export KUBECONFIG=helm/config"
                 sh "helm uninstall petclinic-helm"
                 sh "helm install petclinic-helm helm/petclinic/"
             }
