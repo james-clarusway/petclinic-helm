@@ -68,7 +68,7 @@ pipeline {
                 --from-file=.dockerconfigjson=$JENKINS_HOME/.docker/config.json \
                 --type=kubernetes.io/dockerconfigjson
                 """
-                sh "helm install petclinic-helm helm/petclinic/"
+                sh "rancher helm install petclinic-helm helm/petclinic/"
             }
         }
     }
