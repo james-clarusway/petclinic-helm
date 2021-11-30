@@ -63,8 +63,8 @@ pipeline {
                 echo 'Deploying App on K8s Cluster'
                 sh "rancher login $RANCHER_URL --context $RANCHER_CONTEXT --token $RANCHER_CREDS_USR:$RANCHER_CREDS_PSW"
                 sh "envsubst < helm/petclinic/values-template.yaml > helm/petclinic/values.yaml"
-                //sh "HELM_VERSION=`cat helm/petclinic/Chart.yaml | grep 'version:' | awk '{print $2}'`"
-                sh "sed -i s/\$(cat helm/petclinic/Chart.yaml | grep 'version:' | awk '{print $2}')/\${BUILD_NUMBER}/ helm/petclinic/Chart.yaml"
+                //sh "HELM_VERSION=\$(cat helm/petclinic/Chart.yaml | grep 'version:' | awk '{print $2}')"
+                sh "sed -i s/$HELM_VERSION/${BUILD_NUMBER}/ helm/petclinic/Chart.yaml"
                 sh "rancher kubectl delete secret regcred -n petclinic-staging-ns || true"
                 sh """
                 rancher kubectl create secret generic regcred -n petclinic-staging-ns \
