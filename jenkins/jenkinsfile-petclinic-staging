@@ -64,7 +64,7 @@ pipeline {
                 sh "rancher login $RANCHER_URL --context $RANCHER_CONTEXT --token $RANCHER_CREDS_USR:$RANCHER_CREDS_PSW"
                 sh "envsubst < helm/petclinic/values-template.yaml > helm/petclinic/values.yaml"
                 sh """
-                sed -i "s/$(cat helm/petclinic/Chart.yaml | grep "version:" | awk '{print $2}')/$BUILD_NUMBER/" helm/petclinic/Chart.yaml
+                sed -i "s/$(cat helm/petclinic/Chart.yaml | grep "version:" | awk '{print $2}')/BUILD_NUMBER/" helm/petclinic/Chart.yaml
                 """
                 sh "rancher kubectl delete secret regcred -n petclinic-staging-ns || true"
                 sh """
