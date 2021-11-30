@@ -9,7 +9,8 @@ pipeline {
         ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         RANCHER_URL="https://petclinicdt-rancher.clarusway.us"
         // Get the project-id from Rancher UI (petclinic-cluster-staging namespace, View in API, copy projectId )
-        RANCHER_CONTEXT="c-b77d9:p-fj2hb" 
+        RANCHER_CONTEXT="c-29k9r:p-64xj4" 
+        CLUSTERID="c-29k9r"
         RANCHER_CREDS=credentials('rancher-petclinic-credentials')
     }
     stages {
@@ -69,16 +70,14 @@ pipeline {
                 --type=kubernetes.io/dockerconfigjson
                 """
                 sh "rm -f helm/config"
-                sh "rancher cluster kf c-b77d9 > helm/config"
+                sh "rancher cluster kf $CLUSTERID > helm/config"
                 sh "chmod 400 helm/config"
                 // sh "helm install petclinic-helm helm/petclinic/ --kubeconfig helm/config"
                 // sh "helm upgrade petclinic-helm helm/petclinic/ --kubeconfig helm/config"
-                sh "helm plugin install https://github.com/hypnoglow/helm-s3.git --kubeconfig helm/config| echo helm s3 is already uploaded "
-                sh "helm s3 init s3://petclinic-helm-charts/stable/myapp --kubeconfig helm/config | echo petclinic-helm-charts s3 is already initialized "
-                sh "helm repo add stable-petclinic s3://petclinic-helm-charts/stable/myapp/ --kubeconfig helm/config | echo stable-myapp is already added "
-                sh "helm package helm/petclinic --kubeconfig helm/config"
-                sh "helm s3 push petclinic-0.1.0.tgz stable-petclinic --kubeconfig helm/config"
-                sh "helm repo update --kubeconfig helm/config"
+                sh "helm repo add stable-petclinic s3://petclinic-helm-charts/stable/myapp/  | echo stable-myapp is already added "
+                sh "helm package helm/petclinic"
+                sh "helm s3 push helm/petclinic-0.1.0.tgz stable-petclinic"
+                sh "helm repo update"
                 sh "helm upgrade --install petclinic-app-release stable-petclinic/petclinic --version 0.1.0 --kubeconfig helm/config"
             }
         }
